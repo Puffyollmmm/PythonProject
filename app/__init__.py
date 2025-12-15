@@ -9,8 +9,6 @@ from flask_cors import CORS
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.exceptions import HTTPException
 
-# APScheduler 3.x 会间接 import pkg_resources；setuptools 新版会吵这个 UserWarning。
-# 这不是我们项目代码的问题，别让它污染启动日志。
 warnings.filterwarnings(
     "ignore",
     message=r"pkg_resources is deprecated as an API\..*",
@@ -51,7 +49,6 @@ def create_app(config_object=None):
     migrate.init_app(app, db)
     jwt.init_app(app)
 
-    # 让 JWT 报错也走统一返回格式（不然前端会吃到 {"msg": "..."} 这种怪东西）
     from .utils import Response
 
     @jwt.unauthorized_loader

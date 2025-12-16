@@ -37,13 +37,7 @@ def create_app(config_object=None):
         app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 8 * 3600
 
     # 初始化CORS，允许所有跨域请求
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": "*",
-            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"]
-        }
-    })
+    CORS(app, origins="*")
 
     db.init_app(app)
     migrate.init_app(app, db)
